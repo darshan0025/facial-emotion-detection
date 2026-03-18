@@ -2,7 +2,7 @@ import os
 import cv2
 import numpy as np
 from flask import Flask, render_template, request, jsonify
-import tensorflow as tf
+
 try:
     from tflite_runtime.interpreter import Interpreter
 except ImportError:
