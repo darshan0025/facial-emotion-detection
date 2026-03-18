@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Emotion Lens AI | Futuristic HUD</title>
+    <!-- Google Fonts: Inter for UI, Orbitron for futuristic accents -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body class="hud-mode">
+    <!-- Grid Background & Ambient Effects -->
+    <div class="background-effects">
+        <div class="grid-overlay"></div>
+        <div class="glow-orb top-right"></div>
+        <div class="glow-orb bottom-left"></div>
+    </div>
+
+    <div class="dashboard-container">
+        <!-- Main Sidebar / HUD Left -->
+        <aside class="hud-sidebar">
+            <header class="hud-header">
+                <div class="logo-area">
+                    <div class="logo-icon"></div>
+                    <h1>EMOTION<span>LENS</span></h1>
+                </div>
+                <p class="tagline">Neural Visual Interface v2.0</p>
+            </header>
+
+            <nav class="hud-nav">
+                <button class="nav-item active" data-tab="live-feed">
+                    <span class="icon">📡</span>
+                    <span class="label">LIVE FEED</span>
+                    <div class="active-indicator"></div>
+                </button>
+                <button class="nav-item" data-tab="image-analysis">
+                    <span class="icon">📂</span>
+                    <span class="label">ANALYSIS</span>
+                    <div class="active-indicator"></div>
+                </button>
+                <button class="nav-item" data-tab="system-info">
+                    <span class="icon">⚙️</span>
+                    <span class="label">SYSTEM</span>
+                    <div class="active-indicator"></div>
+                </button>
+            </nav>
+
+            <div class="developer-info">
+                <span class="section-label">INTERFACE DESIGNER</span>
+                <div class="designer-card">
+                    <div class="avatar">D</div>
+                    <div class="details">
+                        <span class="name">Darshan Padsumbiya</span>
+                        <span class="role">Neural Systems Lead</span>
+                    </div>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Workspace -->
+        <main class="hud-main">
+            <!-- Viewport Section -->
+            <section class="viewport-wrapper">
+                <div class="viewport-frame">
+                    <div class="corner tl"></div>
+                    <div class="corner tr"></div>
+                    <div class="corner bl"></div>
+                    <div class="corner br"></div>
+                    
+                    <!-- Scanner Line Animation -->
+                    <div class="scanner-line"></div>
+
+                    <!-- Live Content -->
+                    <div id="live-feed" class="viewport-content active">
+                        <div id="camera-placeholder" class="viewport-placeholder">
+                            <div class="placeholder-icon">📷</div>
+                            <p>WAITING FOR VIDEO UPLINK...</p>
+                        </div>
+                        <video id="webcam" autoplay playsinline muted></video>
+                        <div id="face-box" class="face-box"></div>
+                    </div>
+
+                    <!-- Analysis Content -->
+                    <div id="image-analysis" class="viewport-content">
+                        <div class="upload-zone" id="dropzone">
+                            <input type="file" id="file-upload" accept="image/*" hidden>
+                            <label for="file-upload" class="upload-trigger">
+                                <div class="upload-icon">⬆️</div>
+                                <span>INJECT DATA PACKET</span>
+                                <small>JPG, PNG | MAX 5MB</small>
+                            </label>
+                        </div>
+                        <div id="image-preview-container" class="preview-stage" style="display: none;">
+                            <img id="image-preview" src="" alt="Analysis Subject">
+                            <div class="preview-actions">
+                                <button id="clear-image" class="hud-btn secondary">TERMINATE UPLOAD</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- System Content -->
+                    <div id="system-info" class="viewport-content">
+                        <div class="system-dashboard">
+                            <div class="sys-item">
+                                <span class="sys-label">ENGINE</span>
+                                <span class="sys-val">TENSORFLOW LITE 2.x</span>
+                            </div>
+                            <div class="sys-item">
+                                <span class="sys-label">ARCHITECTURE</span>
+                                <span class="sys-val">CONVOLUTIONAL NEURAL NET</span>
+                            </div>
+                            <div class="sys-item">
+                                <span class="sys-label">LATENCY</span>
+                                <span class="sys-val pulse">MINIMAL (< 50ms)</span>
+                            </div>
+                            <div class="sys-item">
+                                <span class="sys-label">EMOTIONS</span>
+                                <span class="sys-val">ANGRY, DISGUST, FEAR, HAPPY, NEUTRAL, SAD, SURPRISE</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="viewport-controls">
+                    <button id="toggle-cam" class="hud-btn primary">
+                        <span class="btn-glow"></span>
+                        <span class="btn-text">INITIALIZE CAM</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Data Analysis Panel / HUD Right -->
+            <aside class="hud-data-panel">
+                <div class="data-block primary">
+                    <span class="data-label">EMOTION SIGNATURE</span>
+                    <div id="emotion-text" class="data-value highlight">SCANNING...</div>
+                </div>
+
+                <div class="data-block">
+                    <span class="data-label">CONFIDENCE PROBABILITY</span>
+                    <div class="probability-meter">
+                        <div id="confidence-fill" class="meter-fill"></div>
+                    </div>
+                    <div class="data-stats">
+                        <span id="confidence-text">0.0%</span>
+                        <span class="unit">PROB</span>
+                    </div>
+                </div>
+
+                <div class="data-block status">
+                    <span class="data-label">SYSTEM UPLINK</span>
+                    <div class="status-indicator active">
+                        <span class="pulse-dot"></span>
+                        <span id="status">NEURAL LINK STABLE</span>
+                    </div>
+                </div>
+
+                <div class="data-block decorative">
+                    <div class="waveform">
+                        <span></span><span></span><span></span><span></span><span></span>
+                    </div>
+                    <p class="timestamp-realtime" id="server-time">REALTIME PROCESS ACTIVE</p>
+                </div>
+            </aside>
+        </main>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+
+</html>
+>
+</body>
+
+</html>
